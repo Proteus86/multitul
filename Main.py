@@ -31,3 +31,20 @@ def multifon_set_routing():
     print(json_r)
     print('Результат = ' + json_r['response']['result']['description'])
 
+while 1:
+    print('Что делать будем ?')
+    print('Отправим смску через смсц(1)')
+    print('Узнаем роутинг мультифона(2)')
+    print('Выставим роутинг мультифона?(3)')
+    print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(4)')
+    choice = input('Выбор =: ')
+    if choice == '1':
+        smssend()
+    elif choice == '2':
+        multifon_routing()
+    elif choice=='3':
+        multifon_set_routing()
+    elif choice=='4':
+        break
+    else:
+        print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного!')
