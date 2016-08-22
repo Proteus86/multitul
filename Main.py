@@ -1,8 +1,5 @@
 import requests
 import xmltodict
-import json
-import sys
-
 
 def smssend ():
     login=input('Введите логин= ')
@@ -33,3 +30,4 @@ def multifon_set_routing():
     json_r = xmltodict.parse(r.text)
     print(json_r)
     print('Результат = ' + json_r['response']['result']['description'])
+
