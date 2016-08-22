@@ -22,14 +22,14 @@ def multifon_routing():
     except KeyError:
         print('Результат = ' + json_r['response']['result']['description'])
 
-
-print('0 – только телефон')
-print('1 – только в «МультиФон»')
-print('2 – телефон и «МультиФон»')
-routing=input('Выберите роутинг ')
-phones=input('Введите телефон 7...= ')
-psw=input('Введите пароль= ')
-r = requests.get('https://sm.megafon.ru/sm/client/routing/set?login='+phones+'@multifon.ru&password='+psw+'&routing='+routing)
-json_r = xmltodict.parse(r.text)
-print(json_r)
-print('Результат = ' + json_r['response']['result']['description'])
+def multifon_set_routing():
+    print('0 – только телефон')
+    print('1 – только в «МультиФон»')
+    print('2 – телефон и «МультиФон»')
+    routing=input('Выберите роутинг ')
+    phones=input('Введите телефон 7...= ')
+    psw=input('Введите пароль= ')
+    r = requests.get('https://sm.megafon.ru/sm/client/routing/set?login='+phones+'@multifon.ru&password='+psw+'&routing='+routing)
+    json_r = xmltodict.parse(r.text)
+    print(json_r)
+    print('Результат = ' + json_r['response']['result']['description'])
