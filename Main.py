@@ -61,7 +61,7 @@ def poisk_region_coords():
         q_first=q.pop(0)
         q_all=q_last+','+q_first
         q.append(q_all)
-        with open('some.csv', 'w',newline="") as f:
+        with open('COORDS_ALL.csv', 'w',newline="") as f:
             writer = csv.writer(f)
             for i in q:
                 string=i.split(',')
@@ -92,4 +92,3 @@ while 1:
         break
     else:
         print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !')
- 
