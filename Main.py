@@ -1,5 +1,7 @@
 import requests
 import xmltodict
+import json
+import csv
 
 def smssend ():
     login=input('Введите логин= ')
@@ -31,12 +33,50 @@ def multifon_set_routing():
     print(json_r)
     print('Результат = ' + json_r['response']['result']['description'])
 
+def poisk_region():
+    town=input('Введите город ')
+    key=input('Введите ключ ')
+    r = requests.get('http://catalog.api.2gis.ru/geo/search?q='+town+'&types=city,settlement&version=1.3&key='+key)
+    decoded = json.loads(r.text)
+    try:
+        list = decoded['result']
+        print('Регион= '+str(list[0]['project_id']))
+    except:
+        print('error_message= ' + decoded['error_message'])
+        print('error_code= ' + decoded['error_code'])
+
+def poisk_region_coords():
+    town=input('Введите город ')
+    key=input('Введите ключ ')
+    r = requests.get('http://catalog.api.2gis.ru/geo/search?q='+town+'&types=city,settlement&version=1.3&key='+key)
+    decoded = json.loads(r.text)
+    try:
+        list = decoded['result']
+        polygon = list[0]['selection']
+        polygon=polygon.lstrip('MULTIPOLYGON')
+        polygon = polygon.replace('(','')
+        polygon = polygon.replace(')','')
+        q=polygon.split(' ')
+        q_last=q.pop()
+        q_first=q.pop(0)
+        q_all=q_last+','+q_first
+        q.append(q_all)
+        with open('some.csv', 'w',newline="") as f:
+            writer = csv.writer(f)
+            for i in q:
+                string=i.split(',')
+                writer.writerow(string)
+    except:
+        print('error_message= ' + decoded['error_message'])
+        print('error_code= ' + decoded['error_code'])
 while 1:
     print('Что делать будем ?')
     print('Отправим смску через смсц(1)')
     print('Узнаем роутинг мультифона(2)')
     print('Выставим роутинг мультифона?(3)')
-    print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(4)')
+    print('Поиском региона 2ГИС по городу?(4)')
+    print('Выгрузим координаты города по названию ?(5)')
+    print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(q)')
     choice = input('Выбор =: ')
     if choice == '1':
         smssend()
@@ -45,6 +85,10 @@ while 1:
     elif choice=='3':
         multifon_set_routing()
     elif choice=='4':
+        poisk_region()
+    elif choice=='5':
+        poisk_region_coords()
+    elif choice=='q':
         break
     else:
         print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного!')
