@@ -6,10 +6,7 @@ import json
 import requests
 import xml.etree.cElementTree as ElementTree
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-
 class XmlListConfig(list):
     def __init__(self, aList):
         for element in aList:
