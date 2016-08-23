@@ -36,7 +36,7 @@ def multifon_set_routing():
 def poisk_region():
     town=input('Введите город ')
     key=input('Введите ключ ')
-    r = requests.get('http://catalog.api.2gis.ru/geo/search?q='+town+'&types=city,settlement&version=1.3&key='+key)
+    r = requests.get('http://catalog.api.2gis.ru/geo/search?q=' + town + '&types=city,settlement&format=short&version=1.3&key=' + key)
     decoded = json.loads(r.text)
     try:
         list = decoded['result']
@@ -46,29 +46,45 @@ def poisk_region():
         print('error_code= ' + decoded['error_code'])
 
 def poisk_region_coords():
-    town=input('Введите город ')
-    key=input('Введите ключ ')
-    r = requests.get('http://catalog.api.2gis.ru/geo/search?q='+town+'&types=city,settlement&version=1.3&key='+key)
-    decoded = json.loads(r.text)
+    town = input('Введите город ')
+    key = input('Введите ключ ')
+    r = requests.get(
+        'http://catalog.api.2gis.ru/geo/search?q=' + town + '&types=city,settlement&output=xml&version=1.3&key=' + key)
+    json_r = xmltodict.parse(r.text)
     try:
-        list = decoded['result']
-        polygon = list[0]['selection']
-        polygon=polygon.lstrip('MULTIPOLYGON')
-        polygon = polygon.replace('(','')
-        polygon = polygon.replace(')','')
-        q=polygon.split(' ')
-        q_last=q.pop()
-        q_first=q.pop(0)
-        q_all=q_last+','+q_first
-        q.append(q_all)
-        with open('COORDS_ALL.csv', 'w',newline="") as f:
-            writer = csv.writer(f)
-            for i in q:
-                string=i.split(',')
-                writer.writerow(string)
+        string = str(json_r['root']['result']['geoObject']['selection'])
+        MULTI = (string.find('MULTI'))
+        if MULTI == 0:
+            string = string.lstrip('MULTIPOLYGON(((')
+            number = (string.find('))'))
+            string = string[:number]
+            print(number)
+            q = string.split(' ')
+            q_last = q.pop()
+            q_first = q.pop(0)
+            q_all = q_first + ',' + q_last
+            q.append(q_all)
+            with open('COORDS_ALL.csv', 'w', newline="") as f:
+                writer = csv.writer(f)
+                for i in q:
+                    string = i.split(',')
+                    writer.writerow(string)
+        else:
+            string = string.lstrip('POLYGON((')
+            string = string.rstrip('))')
+            q = string.split(' ')
+            q_last = q.pop()
+            q_first = q.pop(0)
+            q_all = q_first + ',' + q_last
+            q.append(q_all)
+            with open('COORDS_ALL.csv', 'w', newline="") as f:
+                writer = csv.writer(f)
+                for i in q:
+                    string = i.split(',')
+                    writer.writerow(string)
     except:
-        print('error_message= ' + decoded['error_message'])
-        print('error_code= ' + decoded['error_code'])
+        print('error_message= ' + json_r['root']['error_message'])
+        print('error_code= ' + json_r['root']['error_code'])
 while 1:
     print('Что делать будем ?')
     print('Отправим смску через смсц(1)')
