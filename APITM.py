@@ -1,7 +1,7 @@
 __author__ = 'balakin'
 # -*- coding: utf-8 -*-
 import urllib.error
-import urllib.request, hashlib, socket ,urllib.parse
+import urllib.request, hashlib,urllib.parse
 import json
 import requests
 import xml.etree.cElementTree as ElementTree
@@ -71,25 +71,6 @@ class XmlDictConfig(dict):
                 self.update({element.tag: element.text})
 
 
-'''
-#---------------------------------------------------------------------------------------
-def GET(ip,port,request,key=''):
-    base_request = 'https://'+ip+':'+port+'/common_api/1.0/'+request
-    try:
-
-        req = urllib.request.Request(base_request)
-        signature = hashlib.md5(key.encode('UTF-8')).hexdigest()
-        req.add_header('Signature', signature)
-        result = urllib.request.urlopen(req)
-        decoded = json.loads(result.read().decode())
-        print (decoded)
-    except urllib.error.URLError:
-        print ('urlopen error [WinError 10060] Попытка установить соединение была безуспешной,'
-           ' \т.к. от другого компьютера за '
-           '\требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного '
-           '\отклика уже подключенного компьютера')
-'''
-#--------------------------------------------------------------------------
 '''
 Гет Апи работает проверил
 '''
