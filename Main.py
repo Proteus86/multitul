@@ -44,7 +44,7 @@ def poisk_region():
     except:
         print('error_message= ' + decoded['error_message'])
         print('error_code= ' + decoded['error_code'])
-
+  
 def poisk_region_coords():
     town = input('Введите город ')
     key = input('Введите ключ ')
