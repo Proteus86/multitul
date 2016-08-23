@@ -3,12 +3,8 @@ __author__ = 'balakin'
 import urllib.error
 import urllib.request, hashlib, socket ,urllib.parse
 import json
-import re
-import sys
 import requests
 import xml.etree.cElementTree as ElementTree
-import certifi
-import ssl
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
