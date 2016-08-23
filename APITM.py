@@ -10,6 +10,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 class XmlListConfig(list):
     def __init__(self, aList):
         for element in aList:
+            
             if element:
                 # treat like dict
                 if len(element) == 1 or element[0].tag != element[1].tag:
