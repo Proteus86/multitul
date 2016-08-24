@@ -2,6 +2,8 @@ import requests
 import xmltodict
 import json
 import csv
+import APITM
+
 
 def smssend ():
     login=input('Введите логин= ')
@@ -14,7 +16,6 @@ def multifon_routing():
     psw=input('Введите пароль= ')
     phones=input('Введите телефон 7...= ')
     r = requests.get('https://sm.megafon.ru/sm/client/routing?login='+phones+'@multifon.ru&password='+psw)
-    #json_r = json.dumps(xmltodict.parse(r.text))
     json_r = xmltodict.parse(r.text)
     try:
         print('Результат = '+json_r['response']['routing'])
@@ -44,7 +45,7 @@ def poisk_region():
     except:
         print('error_message= ' + decoded['error_message'])
         print('error_code= ' + decoded['error_code'])
-  
+
 def poisk_region_coords():
     town = input('Введите город ')
     key = input('Введите ключ ')
@@ -85,6 +86,25 @@ def poisk_region_coords():
     except:
         print('error_message= ' + json_r['root']['error_message'])
         print('error_code= ' + json_r['root']['error_code'])
+
+def API_TM():
+    print('dddd')
+    print('GETparamAPI(ip, port, request, param='', key='') = 1')
+    print('POSTparamAPI(ip, port, request, param='', key='', _json=False) = 2')
+    print('GETparamTAPI(ip, port, request, param='', fields='', key='') = 3')
+    print('POSTparamTAPI(ip, port, request, param='', key='') = 4')
+    choice = input('Ваш выбор =: ')
+    if choice == '1':
+        smssend()
+    elif choice == '2':
+        multifon_routing()
+    elif choice=='3':
+        multifon_set_routing()
+    elif choice=='4':
+        poisk_region()
+    else:
+        print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !')
+
 while 1:
     print('Что делать будем ?')
     print('Отправим смску через смсц(1)')
@@ -92,6 +112,7 @@ while 1:
     print('Выставим роутинг мультифона?(3)')
     print('Поиском региона 2ГИС по городу?(4)')
     print('Выгрузим координаты города по названию ?(5)')
+    print('Запрос в АПИ ТМ ?(6)')
     print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(q)')
     choice = input('Выбор =: ')
     if choice == '1':
@@ -104,6 +125,8 @@ while 1:
         poisk_region()
     elif choice=='5':
         poisk_region_coords()
+    elif choice=='6':
+        API_TM()
     elif choice=='q':
         break
     else:
