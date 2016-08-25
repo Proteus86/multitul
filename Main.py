@@ -18,9 +18,9 @@ def multifon_routing():
     r = requests.get('https://sm.megafon.ru/sm/client/routing?login='+phones+'@multifon.ru&password='+psw)
     json_r = xmltodict.parse(r.text)
     try:
-        print('Результат = '+json_r['response']['routing'])
+        print('Результат = '+json_r['response']['routing']+'\n')
     except KeyError:
-        print('Результат = ' + json_r['response']['result']['description'])
+        print('Результат = ' + json_r['response']['result']['description']+'\n')
 
 def multifon_set_routing():
     print('0 – только телефон')
@@ -32,7 +32,7 @@ def multifon_set_routing():
     r = requests.get('https://sm.megafon.ru/sm/client/routing/set?login='+phones+'@multifon.ru&password='+psw+'&routing='+routing)
     json_r = xmltodict.parse(r.text)
     print(json_r)
-    print('Результат = ' + json_r['response']['result']['description'])
+    print('Результат = ' + json_r['response']['result']['description']+'\n')
 
 def poisk_region():
     town=input('Введите город ')
@@ -41,10 +41,10 @@ def poisk_region():
     decoded = json.loads(r.text)
     try:
         list = decoded['result']
-        print('Регион= '+str(list[0]['project_id']))
+        print('Регион= '+str(list[0]['project_id'])+'\n')
     except:
-        print('error_message= ' + decoded['error_message'])
-        print('error_code= ' + decoded['error_code'])
+        print('error_message= ' + decoded['error_message']+'\n')
+        print('error_code= ' + decoded['error_code']+'\n')
 
 def poisk_region_coords():
     town = input('Введите город ')
@@ -59,13 +59,12 @@ def poisk_region_coords():
             string = string.lstrip('MULTIPOLYGON(((')
             number = (string.find('))'))
             string = string[:number]
-            print(number)
             q = string.split(' ')
             q_last = q.pop()
             q_first = q.pop(0)
             q_all = q_first + ',' + q_last
             q.append(q_all)
-            with open('COORDS_ALL.csv', 'w', newline="") as f:
+            with open(town+'.csv', 'w', newline="") as f:
                 writer = csv.writer(f)
                 for i in q:
                     string = i.split(',')
@@ -78,14 +77,14 @@ def poisk_region_coords():
             q_first = q.pop(0)
             q_all = q_first + ',' + q_last
             q.append(q_all)
-            with open('COORDS_ALL.csv', 'w', newline="") as f:
+            with open(town+'.csv', 'w', newline="") as f:
                 writer = csv.writer(f)
                 for i in q:
                     string = i.split(',')
                     writer.writerow(string)
     except:
         print('error_message= ' + json_r['root']['error_message'])
-        print('error_code= ' + json_r['root']['error_code'])
+        print('error_code= ' + json_r['root']['error_code']+'\n')
 
 def API_TM():
     print('GETparamAPI(ip, port, request, param='', key='') = 1')
@@ -126,7 +125,7 @@ def API_TM():
     elif choice=='5':
         return
     else:
-        print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !')
+        print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !\n')
 
 while 1:
     print('Что делать будем ?')
@@ -136,7 +135,7 @@ while 1:
     print('Поиском региона 2ГИС по городу?(4)')
     print('Выгрузим координаты города по названию ?(5)')
     print('Запрос в АПИ ТМ ?(6)')
-    print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(q)')
+    print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(q)\n')
     choice = input('Выбор =: ')
     if choice == '1':
         smssend()
@@ -153,4 +152,4 @@ while 1:
     elif choice=='q':
         break
     else:
-        print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !')
+        print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !\n')
