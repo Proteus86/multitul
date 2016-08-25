@@ -88,20 +88,43 @@ def poisk_region_coords():
         print('error_code= ' + json_r['root']['error_code'])
 
 def API_TM():
-    print('dddd')
     print('GETparamAPI(ip, port, request, param='', key='') = 1')
     print('POSTparamAPI(ip, port, request, param='', key='', _json=False) = 2')
     print('GETparamTAPI(ip, port, request, param='', fields='', key='') = 3')
-    print('POSTparamTAPI(ip, port, request, param='', key='') = 4')
+    print('POSTparamTAPI(ip, port, request, param='', key='') = 4\n')
+    print('Выход = 5\n')
     choice = input('Ваш выбор =: ')
     if choice == '1':
-        smssend()
+        ip =input('ip= ')
+        port =input('port= ')
+        request =input('request= ')
+        param =input('param= ')
+        key =input('key= ')
+        APITM.GETparamAPI(ip, port, request, param, key)
     elif choice == '2':
-        multifon_routing()
+        ip =input('ip= ')
+        port =input('port= ')
+        request =input('request= ')
+        param =input('param= ')
+        key =input('key= ')
+        APITM.POSTparamAPI(ip, port, request, param, key)
     elif choice=='3':
-        multifon_set_routing()
+        ip = input('ip= ')
+        port = input('port= ')
+        request = input('request= ')
+        param = input('param= ')
+        fields = input('fields= ')
+        key = input('key= ')
+        APITM.GETparamTAPI(ip, port, request, param, fields, key)
     elif choice=='4':
-        poisk_region()
+        ip = input('ip= ')
+        port = input('port= ')
+        request = input('request= ')
+        param = input('param= ')
+        key = input('key= ')
+        APITM.POSTparamTAPI(ip, port, request, param, key)
+    elif choice=='5':
+        return
     else:
         print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !')
 
