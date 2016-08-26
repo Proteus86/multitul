@@ -3,6 +3,7 @@ import xmltodict
 import json
 import csv
 import APITM
+from fdb import services
 
 
 def smssend ():
@@ -127,6 +128,23 @@ def API_TM():
     else:
         print('ЭЭЭЭЭЭЭЭ че ты ввел то ? Давайка заного !\n')
 
+def services_API_backup():
+    base = input('Путь к локальной базе ')
+    base_backup = input('Путь к бэкапу ')
+    host = input("host= 127.0.0.1 ")
+    user = input("user = sysdba ")
+    password = input("password = admin ")
+    con = services.connect(host=host, user=user, password=password)
+    con.backup(base, base_backup, collect_garbage=True)
+    backup_report = con.readlines()
+    f = open('backup_report.txt', 'w')
+    print('Лог лежит в файле backup_report.txt')
+    f.write(base + " " + base_backup + "\n" + "\n")
+    for i in backup_report:
+        f.write(i + '\n')
+        print(i)
+    f.close()
+
 while 1:
     print('\n***********************************')
     print('Что делать будем ?')
@@ -136,12 +154,13 @@ while 1:
     print('Поиском региона 2ГИС по городу?(4)')
     print('Выгрузим координаты города по названию ?(5)')
     print('Запрос в АПИ ТМ ?(6)')
+    print('Бэкап базы *.FDB ?(7)')
     print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(q)')
     print('***********************************\n')
     choice = input('Выбор =: ')
     if choice == '1':
         smssend()
-    elif choice == '2':
+    elif choice =='2':
         multifon_routing()
     elif choice=='3':
         multifon_set_routing()
@@ -151,6 +170,8 @@ while 1:
         poisk_region_coords()
     elif choice=='6':
         API_TM()
+    elif choice=='7':
+        services_API_backup()
     elif choice=='q':
         break
     else:
