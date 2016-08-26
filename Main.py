@@ -46,7 +46,7 @@ def poisk_region():
     except:
         print('error_message= ' + decoded['error_message']+'\n')
         print('error_code= ' + decoded['error_code']+'\n')
-
+6
 def poisk_region_coords():
     town = input('Введите город ')
     key = input('Введите ключ ')
@@ -100,7 +100,7 @@ def API_TM():
         request =input('request= ')
         param =input('param= ')
         key =input('key= ')
-        APITM.GETparamAPI(ip, port, request, param, key)
+        print(APITM.GETparamAPI(ip, port, request, param, key))
     elif choice == '2':
         ip =input('ip= ')
         port =input('port= ')
