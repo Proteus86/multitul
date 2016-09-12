@@ -46,7 +46,7 @@ def poisk_region():
     except:
         print('error_message= ' + decoded['error_message']+'\n')
         print('error_code= ' + decoded['error_code']+'\n')
-6
+
 def poisk_region_coords():
     town = input('Введите город ')
     key = input('Введите ключ ')
@@ -145,6 +145,17 @@ def services_API_backup():
         print(i)
     f.close()
 
+
+def oktell():
+    while 1:
+        number = input('Номер/q выход(все другое сброс звонка) ')
+        if number.isdigit():
+            requests.get('http://127.0.0.1:4059/callto?number=' + number)
+        elif number == 'q':
+            break
+        else:
+            requests.get('http://127.0.0.1:4059/disconnectcall')
+
 while 1:
     print('\n***********************************')
     print('Что делать будем ?')
@@ -155,6 +166,7 @@ while 1:
     print('Выгрузим координаты города по названию ?(5)')
     print('Запрос в АПИ ТМ ?(6)')
     print('Бэкап базы *.FDB ?(7)')
+    print('Oktell ?(8)')
     print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(q)')
     print('***********************************\n')
     choice = input('Выбор =: ')
@@ -172,6 +184,8 @@ while 1:
         API_TM()
     elif choice=='7':
         services_API_backup()
+    elif choice=='8':
+        oktell()
     elif choice=='q':
         break
     else:
