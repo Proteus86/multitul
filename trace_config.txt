@@ -1,0 +1,103 @@
+ <database >
+
+        #Trace database events
+        enabled true
+
+        #Trace connection ID
+        connection_id 0
+
+        #SQL queries include filter
+        include_filter %(SELECT|INSERT|UPDATE|DELETE)%
+
+        #SQL queries exclude filter
+        #exclude_filter
+
+        #Put attach/detach log events
+        log_connections true
+
+        #Put transaction start/end events
+        log_transactions true
+
+        #Put SQL statement prepare records
+        log_statement_prepare true
+
+        #Put SQL statement free records
+        log_statement_free true
+
+        #Put SQL statement execution start records
+        log_statement_start true
+
+        #Put SQL statement execution finish/fetch to EOF records
+        log_statement_finish true
+
+        #Put stored procedure execution start records
+        log_procedure_start true
+
+        #Put stored procedure execution finish records
+        log_procedure_finish true
+
+        #Put trigger execution start records
+        log_trigger_start true
+
+        #Put trigger execution finish records
+        log_trigger_finish true
+
+        #Put context variable change records (RDB$SET_CONTEXT)
+        log_context true
+
+        #Put access path (plan) with SQL statement
+        print_plan true
+
+        #Put detailed performance info when applicable
+        print_perf true
+
+        #Log BLR requests compile/execute records
+        log_blr_requests false
+
+        #Print BLR requests
+        print_blr false
+
+        #Put DYN requests execute records
+        log_dyn_requests false
+
+        #Print DYN requests
+        print_dyn false
+
+        #Put xxx_finish record only if its timing exceeds this number of milliseconds
+        time_threshold 100
+
+        #Maximum length of SQL strings logged
+        max_sql_length 300
+
+        #Maximum length of BLR request logged
+        max_blr_length 500
+
+        #Maximum length of DYN request logged
+        max_dyn_length 500
+
+        #Maximum length of individual string argument logged
+        max_arg_length 80
+
+        #Maximum number of query arguments to put in log
+        max_arg_count 30
+    </database>
+
+
+
+    <services>
+
+        #Trace services events
+        enabled false
+
+        #Service include filter
+        #include_filter
+
+        #Service exclude filter
+        #exclude_filter
+
+        #Put service attach, detach and start records
+        log_services false
+
+        #Put service query records
+        log_service_query false
+    </services>

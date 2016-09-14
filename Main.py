@@ -4,6 +4,9 @@ import json
 import csv
 import APITM
 from fdb import services
+import fdb
+import time
+import threading
 
 
 def smssend ():
@@ -13,6 +16,7 @@ def smssend ():
     mes=input('Введите сообщение= ')
     r = requests.get('http://smsc.ru/sys/send.php?login='+login+'&psw='+psw+'&phones='+phones+'&mes='+mes)
     print(r.text)
+
 def multifon_routing():
     psw=input('Введите пароль= ')
     phones=input('Введите телефон 7...= ')
@@ -145,7 +149,6 @@ def services_API_backup():
         print(i)
     f.close()
 
-
 def oktell():
     while 1:
         number = input('Номер/q выход(все другое сброс звонка) ')
@@ -155,6 +158,60 @@ def oktell():
             break
         else:
             requests.get('http://127.0.0.1:4059/disconnectcall')
+
+def trace_main():
+    global STOP
+    STOP = 0
+    def trace():
+        global STOP
+        con_aux = services.connect(host='192.168.4.18', user='sysdba', password='admin')
+        trace_config_test = open('trace_config.txt', 'r')
+        trace_config = trace_config_test.read()
+        trace_config_test.close()
+        trace_id = con.trace_start(trace_config, 'test_trace_2')
+        print('{}'.format(con_aux.trace_list()))
+        f = open('backup_report.txt', 'w')
+        while 1:
+            if int(STOP)==0:
+                try:
+                    line=(con._QS(fdb.ibase.isc_info_svc_line))
+                    f.write(con._QS(fdb.ibase.isc_info_svc_line))
+                except fdb.OperationalError:
+                    # It is routine for actions such as RESTORE to raise an
+            # exception at the end of their output.  We ignore any such
+            # exception and assume that it was expected, which is somewhat
+            # risky.  For example, suppose the network connection is broken
+            # while the client is receiving the action&#39;s output...
+                    break
+                if not line: # we reached the end of output
+                    break
+            if int(STOP) ==1:
+                #os._exit(0)
+                break
+            if int(STOP)==2:
+                print(con_aux.trace_suspend(trace_id))
+                STOP=4
+            if int(STOP)==3:
+                print(con_aux.trace_resume(trace_id))
+                STOP =0
+        print(con_aux.trace_stop(trace_id))
+        con_aux.close()
+        con.close()
+        f.close()
+
+    con = services.connect(host='192.168.4.18', user='sysdba', password='admin')
+    thread_trace_= threading.Thread(target=trace)
+    thread_trace_.start()
+    print("STARTED")
+    while 1:
+        time.sleep(1)
+        STOP = input('Для остановки введите любую клавишу 1. Для паузы 2. Для продолжения 3. ')
+        if int(STOP)==1:
+            while threading.active_count() > 1:
+                time.sleep(1)
+            break
+    print ("FINISHED")
+
 
 while 1:
     print('\n***********************************')
@@ -167,12 +224,12 @@ while 1:
     print('Запрос в АПИ ТМ ?(6)')
     print('Бэкап базы *.FDB ?(7)')
     print('Oktell ?(8)')
+    print('Запустить Tracert ?(9)')
     print('ВЫХОД(EXIT)(ЕХИТ)(ЗАКРЫТЬ)(q)')
     print('***********************************\n')
     choice = input('Выбор =: ')
     if choice == '1':
         smssend()
-        
     elif choice =='2':
         multifon_routing()
     elif choice=='3':
@@ -187,6 +244,8 @@ while 1:
         services_API_backup()
     elif choice=='8':
         oktell()
+    elif choice=='9':
+        trace_main()
     elif choice=='q':
         break
     else:
