@@ -172,6 +172,7 @@ def trace_main():
         print('{}'.format(con_aux.trace_list()))
         f = open('backup_report.txt', 'w')
         while 1:
+            
             if int(STOP)==0:
                 try:
                     line=(con._QS(fdb.ibase.isc_info_svc_line))
