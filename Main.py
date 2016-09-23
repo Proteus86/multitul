@@ -80,7 +80,7 @@ def poisk_region_coords():
             q = string.split(' ')
             q_last = q.pop()
             q_first = q.pop(0)
-            q_all = q_first + ',' + q_last
+            q_all = q_last + ',' + q_first
             q.append(q_all)
             with open(town+'.csv', 'w', newline="") as f:
                 writer = csv.writer(f)
@@ -172,7 +172,7 @@ def trace_main():
         print('{}'.format(con_aux.trace_list()))
         f = open('backup_report.txt', 'w')
         while 1:
-            
+
             if int(STOP)==0:
                 try:
                     line=(con._QS(fdb.ibase.isc_info_svc_line))
